@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Youngsc">
+
+
+    <meta name="subtitle" content="I can do all things.">
+
+
+
+
+<title>Luogu P1375 花园 | Youngsc&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/apple-icon-precomposed.png">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Youngsc&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Youngsc&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        
+        <header class="post-header">
+            <h1 class="post-title">Luogu P1375 花园</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Youngsc</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">Sep 15, 2017&nbsp;&nbsp;21:11:51</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E9%A2%98%E8%A7%A3/">题解</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="题目传送门"><a href="#题目传送门" class="headerlink" title="题目传送门"></a><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1357">题目传送门</a></h2><h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><h3 id="80pts"><a href="#80pts" class="headerlink" title="80pts"></a>80pts</h3><p>前$80%$的$N&lt;=100000$,还是可做的，和容易想到用DP搞，因为$m&lt;=5$,所以我们可以把最后的$m$盆花进行状压,$f[i][j]$表示共有$i$盆花且最后$m$盆花的状态为$j$的时候的方案数,那么我们就可以将以个可以转移给j的状态的方案数加给他,即状态转移方程为$f[i][j] = Σ f[i-1][k]$ ($k$可转移给$j$),那么问题又来了,题目中说所有的花都是环形,我这样做如何保证所有的方案都是环形的呢.我们可以多次DP<br>每次DP前将其中一个合法状态赋值$k$为$1$,然后从$m$盆花一直更新到$m+n$盆花,最后我再将$f[m+n][k]$加到$ans$中,这样我就可以保证最后更新出的答案中的方案数都是以最$k$开始且又以$k$结束的方案,即组成了一个环.最后的$ans$即为方案数.为了省时间,我们可以与处理出来哪些方案是合法的,哪些方案能够转移到哪些方案.并用bool记录下来.</p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">define</span> R register</span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">define</span> LL long long</span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">define</span> db double</span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">define</span> mod 1000000007</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line">LL n,m,k,f[<span class="number">100010</span>][<span class="number">35</span>],ans,t,state[<span class="number">35</span>];</span><br><span class="line"><span class="keyword">bool</span> ok[<span class="number">35</span>],sure[<span class="number">35</span>][<span class="number">35</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">in</span><span class="params">(R LL &amp;a)</span></span>&#123;</span><br><span class="line">    R <span class="keyword">char</span> c = <span class="built_in">getchar</span>();R LL x=<span class="number">0</span>,f=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(!<span class="built_in">isdigit</span>(c))&#123;<span class="keyword">if</span>(c == <span class="string">&#x27;-&#x27;</span>) f=<span class="number">-1</span>; c = <span class="built_in">getchar</span>();&#125;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">isdigit</span>(c)) x = (x&lt;&lt;<span class="number">1</span>)+(x&lt;&lt;<span class="number">3</span>)+c-<span class="string">&#x27;0&#x27;</span>,c = <span class="built_in">getchar</span>();</span><br><span class="line">    a = x*f;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">yg</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">in</span>(n),<span class="built_in">in</span>(m);<span class="built_in">in</span>(k);</span><br><span class="line">    R <span class="keyword">int</span> tot = (<span class="number">1</span>&lt;&lt;m)<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">for</span>(R <span class="keyword">int</span> i=<span class="number">0</span>; i&lt;=tot; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        R <span class="keyword">int</span> d = i;</span><br><span class="line">        <span class="keyword">for</span>(R <span class="keyword">int</span> j=<span class="number">1</span>,sum=<span class="number">0</span>; j&lt;=m; ++j)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(d&amp;<span class="number">1</span>) sum++;</span><br><span class="line">            d&gt;&gt;=<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(j==m&amp;&amp;sum&lt;=k) state[++t] = i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(R <span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=t; ++i)</span><br><span class="line">        <span class="keyword">for</span>(R <span class="keyword">int</span> j=<span class="number">1</span>; j&lt;=t; ++j)&#123;</span><br><span class="line">            R <span class="keyword">int</span> x = state[i],y = state[j];</span><br><span class="line">            <span class="keyword">for</span>(R <span class="keyword">int</span> p=<span class="number">0</span>; p&lt;m<span class="number">-1</span>; ++p)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(((x&gt;&gt;p)&amp;<span class="number">1</span>) != ((y&gt;&gt;(p+<span class="number">1</span>))&amp;<span class="number">1</span>)) <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">if</span>(p == m<span class="number">-2</span>) sure[i][j] = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(R <span class="keyword">int</span> p=<span class="number">1</span>; p&lt;=t; ++p)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">memset</span>(f,<span class="number">0</span>,<span class="built_in"><span class="keyword">sizeof</span></span>(f));</span><br><span class="line">        f[m][p]=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(R <span class="keyword">int</span> i=m+<span class="number">1</span>; i&lt;=n+m; ++i)</span><br><span class="line">            <span class="keyword">for</span>(R <span class="keyword">int</span> j=<span class="number">1</span>; j&lt;=t; ++j)</span><br><span class="line">                <span class="keyword">for</span>(R <span class="keyword">int</span> k=<span class="number">1</span>; k&lt;=t; ++k)</span><br><span class="line">                    <span class="keyword">if</span>(sure[k][j])</span><br><span class="line">                        f[i][j]=(f[i<span class="number">-1</span>][k]+f[i][j])%mod;</span><br><span class="line">        ans = (ans+f[m+n][p])%mod;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; ans;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> youngsc = <span class="built_in">yg</span>();</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="AC"><a href="#AC" class="headerlink" title="AC"></a>AC</h3><p>其实我们会发现，对于一个合法状态，更新它的合法状态始终是不变的，并且总会更新$N$次，也就是说对于每一次转移，都相当于给原数组乘以了一个矩阵，并且很显然这个矩阵是不变的，而且它就是当初我们处露出来的表示转移关系的那个bool数组，也就是上边代码中的$sure$，既然这样，那我们的$f[i][j]$中的第一维就没有任何意义了，我们可以将它扔掉，变成一个一维数组，当我们试图去写最终的$f$数组与$sure$相乘时你又会发现，因为$f$数组中只有当前枚举的合法状态是$1$，其余均是$0$，并且最重要的也是$f$数组中的$k$，所以按照矩阵乘法的原则，只需在最终的答案中加上$sure[k][k]$即可，<br>因为对于不同的$k$最终的$sure$数组是不变的，所以最终的答案就是$sure$矩阵对角线的和。</p>
+<h4 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">define</span> R register</span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">define</span> LL long long</span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">define</span> db double</span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">define</span> mod 1000000007LL</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line">LL n,m,k;</span><br><span class="line"><span class="keyword">int</span> f[<span class="number">64</span>],anss,t;</span><br><span class="line"><span class="keyword">int</span> state[<span class="number">64</span>],sure[<span class="number">64</span>][<span class="number">64</span>],ans[<span class="number">64</span>][<span class="number">64</span>];</span><br><span class="line"><span class="keyword">bool</span> ok[<span class="number">64</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">in</span><span class="params">(R LL &amp;a)</span></span>&#123;</span><br><span class="line">    R <span class="keyword">char</span> c = <span class="built_in">getchar</span>();R LL x=<span class="number">0</span>,f=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(!<span class="built_in">isdigit</span>(c))&#123;<span class="keyword">if</span>(c == <span class="string">&#x27;-&#x27;</span>) f=<span class="number">-1</span>; c = <span class="built_in">getchar</span>();&#125;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">isdigit</span>(c)) x = (x&lt;&lt;<span class="number">1</span>)+(x&lt;&lt;<span class="number">3</span>)+c-<span class="string">&#x27;0&#x27;</span>,c = <span class="built_in">getchar</span>();</span><br><span class="line">    a = x*f;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">powe</span><span class="params">(R <span class="keyword">int</span> a[<span class="number">64</span>][<span class="number">64</span>],R <span class="keyword">int</span> b[<span class="number">64</span>][<span class="number">64</span>])</span></span>&#123;</span><br><span class="line">    R <span class="keyword">int</span> d[<span class="number">64</span>][<span class="number">64</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="keyword">for</span>(R <span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=t; ++i)</span><br><span class="line">        <span class="keyword">for</span>(R <span class="keyword">int</span> j=<span class="number">1</span>; j&lt;=t; ++j)</span><br><span class="line">            <span class="keyword">for</span>(R <span class="keyword">int</span> k=<span class="number">1</span>; k&lt;=t; ++k)</span><br><span class="line">                d[i][j] = (d[i][j]*<span class="number">1LL</span>+(<span class="number">1LL</span>*a[i][k]*b[k][j])%mod)%mod;</span><br><span class="line">    <span class="built_in">memcpy</span>(a,d,<span class="built_in"><span class="keyword">sizeof</span></span>(d));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">yg</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">in</span>(n),<span class="built_in">in</span>(m);<span class="built_in">in</span>(k);</span><br><span class="line">    R <span class="keyword">int</span> tot = (<span class="number">1</span>&lt;&lt;m)<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">for</span>(R <span class="keyword">int</span> i=<span class="number">0</span>; i&lt;=tot; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        R <span class="keyword">int</span> d = i;</span><br><span class="line">        <span class="keyword">for</span>(R <span class="keyword">int</span> j=<span class="number">1</span>,sum=<span class="number">0</span>; j&lt;=m; ++j)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(d&amp;<span class="number">1</span>) sum++;</span><br><span class="line">            d&gt;&gt;=<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(j==m&amp;&amp;sum&lt;=k) state[++t] = i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(R <span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=t; ++i) ans[i][i] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(R <span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=t; ++i)</span><br><span class="line">        <span class="keyword">for</span>(R <span class="keyword">int</span> j=<span class="number">1</span>; j&lt;=t; ++j)&#123;</span><br><span class="line">            R <span class="keyword">int</span> x = state[i],y = state[j];</span><br><span class="line">            <span class="keyword">for</span>(R <span class="keyword">int</span> p=<span class="number">0</span>; p&lt;m<span class="number">-1</span>; ++p)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(((x&gt;&gt;p)&amp;<span class="number">1</span>) != ((y&gt;&gt;(p+<span class="number">1</span>))&amp;<span class="number">1</span>)) <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">if</span>(p == m<span class="number">-2</span>) sure[i][j] = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    R LL r = n;</span><br><span class="line">    <span class="keyword">while</span>(r)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(r&amp;<span class="number">1LL</span>) <span class="built_in">powe</span>(ans,sure);</span><br><span class="line">        <span class="keyword">if</span>(r&gt;<span class="number">1LL</span>) <span class="built_in">powe</span>(sure,sure);</span><br><span class="line">        r&gt;&gt;=<span class="number">1LL</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(R <span class="keyword">int</span> p=<span class="number">1</span>; p&lt;=t; ++p) anss = (anss*<span class="number">1LL</span>+ans[p][p]*<span class="number">1LL</span>)%mod;</span><br><span class="line">    cout &lt;&lt; anss;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> youngsc = <span class="built_in">yg</span>();</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;;&#125;</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Youngsc</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://example.com/2017/09/15/Luogu-P1375/">http://example.com/2017/09/15/Luogu-P1375/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/DP/"># DP</a>
+                    
+                        <a href="/tags/%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9/"># 状态压缩</a>
+                    
+                        <a href="/tags/%E7%9F%A9%E9%98%B5%E4%BC%98%E5%8C%96/"># 矩阵优化</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2017/09/18/Luogu-P1578/">Luogu P1578 奶牛浴场</a>
+            
+            
+            <a class="next" rel="next" href="/2017/08/04/NOIP-2013-%E8%B4%A7%E8%BD%A6%E8%BF%90%E8%BE%93/">NOIP 2013 货车运输</a>
+            
+        </section>
+
+
+    </article>
+</div>
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 2017-2021 Youngsc  | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a> | <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>

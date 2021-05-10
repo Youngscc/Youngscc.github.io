@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Youngsc">
+
+
+    <meta name="subtitle" content="I can do all things.">
+
+
+
+
+<title>Luogu P1578 奶牛浴场 | Youngsc&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/apple-icon-precomposed.png">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Youngsc&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Youngsc&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        
+        <header class="post-header">
+            <h1 class="post-title">Luogu P1578 奶牛浴场</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Youngsc</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">Sep 18, 2017&nbsp;&nbsp;21:13:30</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E9%A2%98%E8%A7%A3/">题解</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="题目传送门"><a href="#题目传送门" class="headerlink" title="题目传送门"></a><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1578">题目传送门</a></h2><h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>初一看，满脸懵逼，不知如何下手，总感觉是道水题，但就是不会写。<br>这道题是国队大佬王知昆在2003年发表的国家集训队论文《浅谈用极大化思想解决最大子矩阵问题》中提到的2002年冬令营的一道题目。是一个比较经典的模型。<br>我们定义有效子矩形为内部不包含任何障碍点且边界与坐标轴平行的子矩形。如图所示，第一个是有效子矩形（尽管边界上有障碍点），第二个不是有效子矩形（因为内部含有障碍点）。</p>
+<p><img src="https://ftp.bmp.ovh/imgs/2021/05/975309598f50f85c.png"></p>
+<p>首先我们可以对所有的点按照横坐标从小到大的顺序排序，为了方便将右上角也作为一个点加进去，然后以每一个点所在的纵轴作为举矩形的左边界，并确定一个上下界，依次向后枚举每一个点作 为右边界，通过构造的矩形更新答案，以及上下边界。</p>
+<p><img src="https://ftp.bmp.ovh/imgs/2021/05/e2ca1eddd3a1992c.png"></p>
+<p>如图是以点1为左边界来枚举右边界的三个阶段。可见上下边界在一直被不停地更新。</p>
+<p>接下来我们会发现一个问题，就是答案其实并没有被完全的更新，我们漏掉了一些情况，通过上边的枚举，我们无法得到一个左边界与整个矩形的左边界完全重合的有效子矩阵以及左右边界都与整个矩阵左右边界分别重合的矩阵，及以下两种情况。</p>
+<p><img src="https://ftp.bmp.ovh/imgs/2021/05/9f01a98f2133775b.png"><br><img src="https://ftp.bmp.ovh/imgs/2021/05/59ac348b65adf7f9.png"></p>
+<p>关于第一种情况，我们只需倒着枚举一边，即把所有的点作为右边界，向左枚举，就能找到左边界为矩阵左边界的情况。</p>
+<p>对于第二种来说，我们只需要将所有的点按照纵坐标从小到大排序，那么相邻两个点之间的矩形就是如图的矩形。</p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">define</span> R register</span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">define</span> LL long long</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> l,w,n,ans;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">pp</span>&#123;</span><span class="keyword">int</span> x,y;&#125;a[<span class="number">5010</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">in</span><span class="params">(R <span class="keyword">int</span> &amp;a)</span></span>&#123;</span><br><span class="line">    R <span class="keyword">char</span> c = <span class="built_in">getchar</span>();R <span class="keyword">int</span> x=<span class="number">0</span>,f=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(!<span class="built_in">isdigit</span>(c))&#123;<span class="keyword">if</span>(c == <span class="string">&#x27;-&#x27;</span>) f=<span class="number">-1</span>; c=<span class="built_in">getchar</span>();&#125;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">isdigit</span>(c)) x = (x&lt;&lt;<span class="number">1</span>)+(x&lt;&lt;<span class="number">3</span>)+c-<span class="string">&#x27;0&#x27;</span>,c = <span class="built_in">getchar</span>();</span><br><span class="line">    a = x*f;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(R pp a,R pp b)</span></span>&#123;<span class="keyword">return</span> a.x&lt;b.x||(a.x == b.x&amp;&amp;a.y&lt;b.y);&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">bool</span> <span class="title">cmp2</span><span class="params">(R pp a,R pp b)</span></span>&#123;<span class="keyword">return</span> a.y&lt;b.y;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">maxx</span><span class="params">(R <span class="keyword">int</span> &amp;a,<span class="keyword">const</span> <span class="keyword">int</span> b)</span></span>&#123;a&gt;b? <span class="number">0</span>:a=b;&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">minn</span><span class="params">(R <span class="keyword">int</span> &amp;a,<span class="keyword">const</span> <span class="keyword">int</span> b)</span></span>&#123;a&lt;b? <span class="number">0</span>:a=b;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">yg</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">in</span>(l),<span class="built_in">in</span>(w);<span class="built_in">in</span>(n);</span><br><span class="line">    <span class="keyword">for</span>(R <span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; ++i) <span class="built_in">in</span>(a[i].x),<span class="built_in">in</span>(a[i].y);</span><br><span class="line">    a[++n] = (pp)&#123;l,w&#125;;</span><br><span class="line">    <span class="built_in">sort</span>(a+<span class="number">1</span>,a+n+<span class="number">1</span>,cmp);</span><br><span class="line">    <span class="keyword">for</span>(R <span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        R <span class="keyword">int</span> up = w,down = <span class="number">0</span>;</span><br><span class="line">        R <span class="keyword">int</span> j;</span><br><span class="line">        <span class="keyword">for</span>(j=i+<span class="number">1</span>; j&lt;=n; ++j)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(a[j].y&lt;=down||a[j].y&gt;=up||a[j].x == a[i].x) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">if</span>((l-a[i].x)*(up-down) &lt;= ans) <span class="keyword">break</span>;</span><br><span class="line">            <span class="built_in">maxx</span>(ans,(a[j].x-a[i].x)*(up-down));</span><br><span class="line">            <span class="keyword">if</span>(a[j].y==a[i].y) <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">if</span>(a[j].y&gt;a[i].y) <span class="built_in">minn</span>(up,a[j].y);</span><br><span class="line">            <span class="keyword">else</span> <span class="built_in">maxx</span>(down,a[j].y);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(j&gt;n) <span class="built_in">maxx</span>(ans,(l-a[i].x)*(up-down));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(R <span class="keyword">int</span> i=n; i&gt;=<span class="number">1</span>; --i)</span><br><span class="line">    &#123;</span><br><span class="line">        R <span class="keyword">int</span> up = w,down = <span class="number">0</span>;</span><br><span class="line">        R <span class="keyword">int</span> j;</span><br><span class="line">        <span class="keyword">for</span>(j=i<span class="number">-1</span>; j&gt;=<span class="number">1</span>; --j)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(a[j].y&lt;=down||a[j].y&gt;=up||a[j].x == a[i].x) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">if</span>(a[i].x*(up-down) &lt;= ans) <span class="keyword">break</span>;</span><br><span class="line">            <span class="built_in">maxx</span>(ans,(a[i].x-a[j].x)*(up-down));</span><br><span class="line">            <span class="keyword">if</span>(a[j].y==a[i].y) <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">if</span>(a[j].y&gt;a[i].y) <span class="built_in">minn</span>(up,a[j].y);</span><br><span class="line">            <span class="keyword">else</span> <span class="built_in">maxx</span>(down,a[j].y);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(j&lt;<span class="number">1</span>) <span class="built_in">maxx</span>(ans,a[i].x*(up-down));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">sort</span>(a+<span class="number">1</span>,a+n+<span class="number">1</span>,cmp2);</span><br><span class="line">    <span class="keyword">for</span>(R <span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; ++i)</span><br><span class="line">        <span class="built_in">maxx</span>(ans,l*(a[i].y-a[i<span class="number">-1</span>].y));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,ans);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> youngsc = <span class="built_in">yg</span>();</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Youngsc</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://example.com/2017/09/18/Luogu-P1578/">http://example.com/2017/09/18/Luogu-P1578/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E6%9E%9A%E4%B8%BE/"># 枚举</a>
+                    
+                        <a href="/tags/%E6%9C%80%E5%A4%A7%E5%AD%90%E7%9F%A9%E9%98%B5%E9%97%AE%E9%A2%98/"># 最大子矩阵问题</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2017/09/27/SDOI2009-Elaxia%E7%9A%84%E8%B7%AF%E7%BA%BF/">SDOI2009 Elaxia的路线</a>
+            
+            
+            <a class="next" rel="next" href="/2017/09/15/Luogu-P1375/">Luogu P1375 花园</a>
+            
+        </section>
+
+
+    </article>
+</div>
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 2017-2021 Youngsc  | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a> | <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>

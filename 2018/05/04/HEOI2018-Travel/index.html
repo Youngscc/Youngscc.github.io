@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Youngsc">
+
+
+    <meta name="subtitle" content="I can do all things.">
+
+
+
+
+<title>NOIP 2013 货车运输 | Youngsc&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/apple-icon-precomposed.png">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Youngsc&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Youngsc&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        
+        <header class="post-header">
+            <h1 class="post-title">NOIP 2013 货车运输</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Youngsc</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">May 04, 2018&nbsp;&nbsp;21:04:08</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E6%B8%B8%E8%AE%B0/">游记</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>辣鸡蒟蒻Youngsc顺利从OI退役了。</p>
+<h3 id="Day-1"><a href="#Day-1" class="headerlink" title="Day-1"></a>Day-1</h3><p>没有什么考试，一天都不想看，什么都没干，就是颓啊颓啊颓啊。<br>晚自习考神给来开了个会，反正就是加油打气什么，还毒奶了一波。无语</p>
+<h3 id="Day0"><a href="#Day0" class="headerlink" title="Day0"></a>Day0</h3><p>因为早上要早起坐车，主任特批让我把手机带回了宿舍当闹铃用，我就设置了一个4:30的闹铃，但因为之前八十中回来的那天早上手机的闹铃并没有响，还是教练打电话叫醒的，所以一直在担心，没想到神奇的生物钟就让我四点二十就倍儿清醒，然后收拾收拾挨个宿舍敲门叫人起床（除了我和PP在一个人宿舍其余人都是一人一个宿舍，感觉敲了一层楼）。<br>出了门好冷，HE的天气飘忽不定。学校大清早给我们准备了早餐，一人一个手抓饼，一块蛋糕，一盒奶，一个鸡蛋，一根火腿，看样子寄予我们很大希望，但想想有我这样的蒟蒻存在，我实在是吃得心不安。<br>学校非要包车送我们去，从衡水到秦皇岛啊，真是不理解。早上五点半就出发，司机开车一点都不稳，一上车就困的一逼，上车就睡了。衡水大雾，高速被封，然后一路跑低速到沧州，然后又因为清明节小长假堵了半个小时，才上的高速，高速也时不时堵车。<br>中午饭也没吃，下午两点多才到，收拾了收拾就去试机。路上还碰到了邯郸一中的老马和他的学生，进了燕大又碰到了石家庄二中的大部队，想想能走在队爷们的后边我真是荣幸。燕大的机子还是一如既往的难用，键盘也用不顺手。<br>回了宾馆没一会儿出去吃饭，主任自掏腰包点了几个菜，看着好像不少钱。<br>晚上颓废了会儿电视就睡了，明天早上还要早起挨个敲门呢。<br>要是soler佬爷和zz在就好玩儿了，不过他们都去奋斗高考了。</p>
+<h3 id="Day1"><a href="#Day1" class="headerlink" title="Day1"></a>Day1</h3><p>果然和教练说好的六点起床，提前五分钟就给我打来电话了。根本睡不够啊。<br>早饭在酒店吃的，真心难吃，什么味道都没有，还不如学校的饭好，也许也是因为我太紧张了吧，吃了几口全扔了，最后还是在去的路上买了一个面包和一盒奥利奥充饥。<br>临考前开了动员会，基本都是文化课的套路话，跟OI基本不沾边，还特别尴尬，以后只能活在别人的游记里了。<br>woc王队长是HE负责人，还顶着一头飘飘长发？清华的男孩子都喜欢留长头发么想想在QB见到MJY和长者都是长头发。话说长者之前的头发挺合适的呀，是懒得剪么。<br>密码竟然是welcometoNOI2018!!!!!!!，看到密码就知道今天的题怕是真难。MDZZ输入了三遍忘记写to，注定今天要凉<br>T1没太看懂题，自己乱YY了半天枚举了好几种解法发现样例一个也过不去，哦我是真菜，最后写了一个优先队列维护的解法就没有管了。<br>T2想得太简单了，感觉不就是个水题吗，然后先写了30的暴力，然后接着xjb贪心，在暴力可过的范围内对拍貌似挺对，然后缩小了一下权值的范围，结果我被自己Hank掉了。冷静分析一波，发现如果有权值相同的情况我就凉了，不慌还有55分，冷静冷静开始看第三题。<br>T3这他妈暴力都不会写，当时脑子一抽2^15枚举不知咋的就想成了10^15枚举，第一反应T成狗，心慌，然后只写了15的主席树。<br>还剩十五分钟，检查了一下文件读入和文件名，然后记闭目养神憧憬着退役之后的“美好”生活。。</p>
+<p>下午出了分之后，T1只骗到了15分，T2还多得了五分，Day1就有要凉的感觉。<br>衡中大佬们T1几乎全A了，难道是我把题想难了？</p>
+<p>中午主任有给我们点了几道菜，依然吃的头皮发麻。我终于知道原来学校里的泡饼学名叫大盘鸡</p>
+<p>学校强行不让我们去官方颓废活动，不爽，然后就在宾馆里颓电视，晚饭照旧，晚上敲了一发SA数组接着颓电视。</p>
+<h3 id="Day2"><a href="#Day2" class="headerlink" title="Day2"></a>Day2</h3><p>实在无法忍受这里的早饭，想着昨天路上买的面包还没吃，默默把它啃完了。<br>去燕大的路上心里还抱有一丝Day2翻盘的希望。<br>密码真实太毒了，nextyeargotoIOI2019!!!!!!看来翻盘无望了。<br>T1居然分两问，第一问水的很，第二问突然大脑一片空白，没有什么想法，就先放着了。<br>T2最后这题不是很难真是***了，想出了选（k+1）条最长的路径的模型之后就没有任何想法了，然后写了个10分的直径。<br>T3看着好像有那么点想法，然后码了一个SA数组，然后才发现还得分块的数量以及互不重叠的块讨论，然后用平衡树维护了一发，发现有奇奇怪怪的东西，调了半小时后果断放弃，然后又果断码了一个暴力数组，又调了半天，终于出样例了感天动地啊，然后才发现已经12点了T1T2还相当于没写。心慌,然后随便码了一个T1的第二问就到时间了，结果比赛结束的时候才发现没有压缩代码，又赶紧随便写了一个压缩密码，想想反正肯定凉了，也没有什么必要去申诉了。<br>中午匆匆忙忙吃了一顿饭就回宾馆收拾东西准备回学校了，后来拿到Day2成绩，翻车翻到不行，WC2018都比这分数高。没办法实在是打得太烂了，而且还活在HE这个强校垄断的省份。A队全都是衡中佬爷们的，省队大名单13人衡中七人石二五人，留下一个名额被邯郸一中拿到了，剩下的学校都全军覆没了。</p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>退役了，也就学了一年的OI，只有一个省一和一个WC2018的铜牌，不知道对自主招生有什么用，文化课也落下了一大部分，从今天开始就要回到文化课的学习了。不知道没有OI的日子怎么过，随遇而安吧。</p>
+<p>OI再见，高考你好。</p>
+<p>AFO</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Youngsc</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://example.com/2018/05/04/HEOI2018-Travel/">http://example.com/2018/05/04/HEOI2018-Travel/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E6%B8%B8%E8%AE%B0/"># 游记</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2017/10/11/TJOI2011-%E5%8D%A1%E7%89%87/">TJOI2011 卡片</a>
+            
+        </section>
+
+
+    </article>
+</div>
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 2017-2021 Youngsc  | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a> | <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
