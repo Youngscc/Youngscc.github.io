@@ -236,7 +236,7 @@
         </header>
 
         <div class="post-content">
-            <h1 id="摘-要"><a href="#摘-要" class="headerlink" title="摘  要"></a>摘  要</h1><p>本论文旨在研究hello在linux系统下的整个生命周期。 结合《深入理解计算机系统》课本，通过gcc、edb、bash等工具进行实验，亲手将一个代码的所有历程直观地展示在电脑界面上，从而是学生在学习这门课时得以更加深刻地感受。</p>
+            <h1 id="摘-要"><a href="#摘-要" class="headerlink" title="摘  要"></a>摘  要</h1><p>本论文旨在研究hello在linux系统下的整个生命周期。 结合《深入理解计算机系统》课本，通过gcc、edb、bash等工具进行实验，亲手将一个代码的所有历程直观地展示在电脑界面上，从而使学生在学习这门课时得以更加深刻地感受。</p>
 <p><strong>关键词</strong>：CSAPP；Hello；预处理；编译；汇编； 链接；进程；C语言；</p>
 <h1 id="第1章-概述"><a href="#第1章-概述" class="headerlink" title="第1章 概述"></a>第1章 概述</h1><h2 id="1-1-Hello简介"><a href="#1-1-Hello简介" class="headerlink" title="1.1 Hello简介"></a>1.1 Hello简介</h2><h3 id="1-1-1-P2P-From-Program-to-Process"><a href="#1-1-1-P2P-From-Program-to-Process" class="headerlink" title="1.1.1 P2P-From Program to Process"></a>1.1.1 P2P-From Program to Process</h3><p>P2P的过程即为程序到进程的过程，首先我们需要了解程序与进程这两个名词的概念。  </p>
 <ul>
@@ -470,8 +470,71 @@
 得到hello的反汇编的代码。<br>将hello.d与hello.objdump进行对比我们可以发现：</li>
 <li><strong>函数个数</strong>：在使用ld命令链接的时候，指定了动态链接器为64的/lib64/ld-linux-x86-64.so.2，crt1.o、crti.o、crtn.o中主要定义了程序入口_start、初始化函数_init，_start程序调用hello.c中的main函数，libc.so是动态链接共享库，其中定义了hello.c中用到的printf、sleep、getchar、exit函数和_start中调用的__libc_csu_init，__libc_csu_fini，__libc_start_main。链接器将上述函数加入。</li>
 <li><strong>函数调用</strong>：链接器解析重定条目时发现对外部函数调用的类型为R_X86_64_PLT32的重定位，此时动态链接库中的函数已经加入到了PLT中，.text与.plt节相对距离已经确定，链接器计算相对距离，将对动态链接库中函数的调用值改为PLT中相应函数与下条指令的相对地址，指向对应函数。对于此类重定位链接器为其构造.plt与.got.plt。</li>
-<li><strong>.rodata引用</strong>：链接器解析重定条目时发现两个类型为R_X86_64_PC32的对.rodata的重定位（printf中的两个字符串），.rodata与.text节之间的相对距离确定，因此链接器直接修改call之后的值为目标地址与下一条指令的地址之差，指向相应的字符串。<h2 id="5-6-hello的执行流程"><a href="#5-6-hello的执行流程" class="headerlink" title="5.6 hello的执行流程"></a>5.6 hello的执行流程</h2>程序名|程序地址</li>
-<li>-|:–<br>加载hello<br>ld-linux-x86-64.so!_dl_start|0x00007ffff7fd4d30<br>ld-linux-x86-64.so!_dl_init|0x00007ffff7fe27b0<br>hello!_start|0x0000000000401090<br>hello!__libc_csu_init|0x00000000004010d0<br>hello!_init|0x0000000000401000<br>libc.so!_setjmp|0x00007ffff7e08b10<br>程序运行<br>hello!main|0x0000000000401149<br>hello!puts@plt|0x0000000000401030<br>ld-linux-x86-64.so!_dl_runtime_resolve_xsave    |0x00007ffff7fe87a0<br>ld-linux-x86-64.so!_dl_fixup|0x00007ffff7fe1de0<br>ld-linux-x86-64.so!_dl_lookup_symbol_x|0x00007ffff7fdd610<br>退出程序<br>hello!exit@plt|0x0000000000401070<br>libc.so!exit|0x00007ffff7e0b840<br>hello!_fini|0x00000000004011d4</li>
+<li><strong>.rodata引用</strong>：链接器解析重定条目时发现两个类型为R_X86_64_PC32的对.rodata的重定位（printf中的两个字符串），.rodata与.text节之间的相对距离确定，因此链接器直接修改call之后的值为目标地址与下一条指令的地址之差，指向相应的字符串。<h2 id="5-6-hello的执行流程"><a href="#5-6-hello的执行流程" class="headerlink" title="5.6 hello的执行流程"></a>5.6 hello的执行流程</h2><table>
+<thead>
+<tr>
+<th align="center">程序名</th>
+<th align="left">程序地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">ld-linux-x86-64.so!_dl_start</td>
+<td align="left">0x00007ffff7fd4d30</td>
+</tr>
+<tr>
+<td align="center">ld-linux-x86-64.so!_dl_init</td>
+<td align="left">0x00007ffff7fe27b0</td>
+</tr>
+<tr>
+<td align="center">hello!_start</td>
+<td align="left">0x0000000000401090</td>
+</tr>
+<tr>
+<td align="center">hello!__libc_csu_init</td>
+<td align="left">0x00000000004010d0</td>
+</tr>
+<tr>
+<td align="center">hello!_init</td>
+<td align="left">0x0000000000401000</td>
+</tr>
+<tr>
+<td align="center">libc.so!_setjmp</td>
+<td align="left">0x00007ffff7e08b10</td>
+</tr>
+<tr>
+<td align="center">hello!main</td>
+<td align="left">0x0000000000401149</td>
+</tr>
+<tr>
+<td align="center">hello!puts@plt</td>
+<td align="left">0x0000000000401030</td>
+</tr>
+<tr>
+<td align="center">ld-linux-x86-64.so!_dl_runtime_resolve_xsave</td>
+<td align="left">0x00007ffff7fe87a0</td>
+</tr>
+<tr>
+<td align="center">ld-linux-x86-64.so!_dl_fixup</td>
+<td align="left">0x00007ffff7fe1de0</td>
+</tr>
+<tr>
+<td align="center">ld-linux-x86-64.so!_dl_lookup_symbol_x</td>
+<td align="left">0x00007ffff7fdd610</td>
+</tr>
+<tr>
+<td align="center">hello!exit@plt</td>
+<td align="left">0x0000000000401070</td>
+</tr>
+<tr>
+<td align="center">libc.so!exit</td>
+<td align="left">0x00007ffff7e0b840</td>
+</tr>
+<tr>
+<td align="center">hello!_fini</td>
+<td align="left">0x00000000004011d4</td>
+</tr>
+</tbody></table>
+</li>
 </ul>
 <h2 id="5-7-Hello的动态链接分析"><a href="#5-7-Hello的动态链接分析" class="headerlink" title="5.7 Hello的动态链接分析"></a>5.7 Hello的动态链接分析</h2><p>函数调用一个由共享库定义的函数时，编译器无法预先判断出函数的地址，因为定义它的共享模块在运行时可以加载到任意位置。GNU编译系统使用延迟绑定的方式解决该问题，在运行时动态载入。<br>延迟绑定通过两个数据结构之间简洁但又有些复杂的交互来实现，即过程链接表（PLT）和全局偏移量表（GOT）。  </p>
 <ul>
@@ -691,7 +754,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="https://youngsc.cc/2021/06/30/CSAPP%E5%A4%A7%E4%BD%9C%E4%B8%9A/">https://youngsc.cc/2021/06/30/CSAPP%E5%A4%A7%E4%BD%9C%E4%B8%9A/</a></span>
+                        <span><a href="https://youngsc.cc/2021/06/30/CSAPP_Final_Work/">https://youngsc.cc/2021/06/30/CSAPP_Final_Work/</a></span>
                     </p>
                 
                 
@@ -731,7 +794,7 @@
         <section class="post-nav">
             
             
-            <a class="next" rel="next" href="/2021/05/20/Git%E7%9A%84%E4%BD%BF%E7%94%A8/">Git的使用</a>
+            <a class="next" rel="next" href="/2021/05/20/Git_Method/">Git的使用</a>
             
         </section>
 
