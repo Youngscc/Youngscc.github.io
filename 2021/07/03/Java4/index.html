@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Youngsc">
+
+
+    <meta name="subtitle" content="I can do all things.">
+
+
+
+
+<title>JAVA的异常类 | Youngsc&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/apple-icon-precomposed.png">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Youngsc&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Youngsc&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        
+        <header class="post-header">
+            <h1 class="post-title">JAVA的异常类</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Youngsc</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">Jul 03, 2021&nbsp;&nbsp;14:27:01</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E8%BD%AF%E4%BB%B6%E6%9E%84%E9%80%A0/">软件构造</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在程序的运行过程中，各种错误是不可避免的，比如想要读入一个文件，但是文件不存在。</p>
+<p>我们可以通过返回特殊值来表示错误（常见于一些较底层的语言如 C），但是它存在一定的局限性，如特殊值的数目有限、有时无法有效区分特殊值和错误……当一个函数返回的就是<code>boolean</code>类型时，那么就难以规定特殊值；一个函数返回一个<code>Object</code>类型，那么当返回值为<code>null</code>时到底是发生了错误还是值就是<code>null</code>就难以区分。  </p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>另一种方法为在语言层面上提供一个异常处理机制。<code>Java</code>就内置了一套异常处理机制，总是使用异常来表示错误。一个用来处理读取文件时文件不存在的代码。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  InputStream inpStream = FileInputStream(file);</span><br><span class="line">&#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">  e.printStackTrace();</span><br><span class="line">  choseAnotherFile();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样当文件不存在时程序不会直接终止，而是提示选择其他文件，其中的<code>FileNotFoundException</code>是一种异常类。<br>异常类是一种特殊的类，它可以在任何地方抛出，但需要被捕获。如果没有在当前方法捕获，那么这个异常会沿着栈一层层向上传递。如果整个程序中没有捕获这个异常，那么它会传到运行时，最后在控制台显示，并结束整个程序。</p>
+<h2 id="继承关系"><a href="#继承关系" class="headerlink" title="继承关系"></a>继承关系</h2><p>异常类的继承关系图如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">                     ┌───────────┐</span><br><span class="line">                     │  Object   │</span><br><span class="line">                     └───────────┘</span><br><span class="line">                           ▲</span><br><span class="line">                           │</span><br><span class="line">                     ┌───────────┐</span><br><span class="line">                     │ Throwable │</span><br><span class="line">                     └───────────┘</span><br><span class="line">                           ▲</span><br><span class="line">                 ┌─────────┴─────────┐</span><br><span class="line">                 │                   │</span><br><span class="line">           ┌───────────┐       ┌───────────┐</span><br><span class="line">           │   Error   │       │ Exception │</span><br><span class="line">           └───────────┘       └───────────┘</span><br><span class="line">                 ▲                   ▲</span><br><span class="line">         ┌───────┘              ┌────┴──────────┐</span><br><span class="line">         │                      │               │</span><br><span class="line">┌─────────────────┐    ┌─────────────────┐┌───────────┐</span><br><span class="line">│OutOfMemoryError │... │RuntimeException ││IOException│...</span><br><span class="line">└─────────────────┘    └─────────────────┘└───────────┘</span><br><span class="line">                                ▲</span><br><span class="line">                    ┌───────────┴─────────────┐</span><br><span class="line">                    │                         │</span><br><span class="line">         ┌─────────────────────┐ ┌─────────────────────────┐</span><br><span class="line">         │NullPointerException │ │IllegalArgumentException │...</span><br><span class="line">         └─────────────────────┘ └─────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<p><code>Throwable</code>表示这个类可以被<code>throw</code>，即抛出。<br>其中<code>Error</code>类表示极其严重的错误，一般来说程序员无法处理，根据快速显示出<code>BUG</code>的原则，应该立即终止程序，如：  </p>
+<ul>
+<li><code>OutOfMemoryError</code>: 内存耗尽，无法获取足够的内存</li>
+<li><code>StackOverflowError</code>： 栈溢出  </li>
+</ul>
+<p>而我们讨论的<code>Exception</code>则是运行时产生的错误，程序员对于这些异常应当捕获并处理。</p>
+<h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><h3 id="运行时错误RuntimeException和其他的异常"><a href="#运行时错误RuntimeException和其他的异常" class="headerlink" title="运行时错误RuntimeException和其他的异常"></a><strong>运行时错误RuntimeException和其他的异常</strong></h3><p>这是从异常产生的原因所做的分类。<br>异常分为两大类：运行时错误<code>RuntimeException</code>和其他的异常。<br>其中运行时错误的产生是由于程序员对于代码的处理不当，代码存在错误，如访问无效内存。而其他的异常一般是由程序员无法控制的外部原因导致，应当包含在代码的逻辑中，如<code>IO</code>错误。<br>运行时错误是可以避免的。若一个运行时错误被抛出，那么此段代码是存在错误的。程序员可以通过提前检验来避免<code>RuntimeException</code>。如<code>ArrayIndexOutOfBoundsException</code>完全可以通过事先检验下标是否合法来避免。  </p>
+<p>其他的异常则较难避免，因为外部因素时难以控制的。如对于<code>FileNotFoundException</code>，即使我们提前检测了文件是否存在，在程序运行时文件有可能被删除。</p>
+<h3 id="Checked-Exception和Unchecked-Exception"><a href="#Checked-Exception和Unchecked-Exception" class="headerlink" title="Checked Exception和Unchecked Exception"></a><strong>Checked Exception和Unchecked Exception</strong></h3><p>这是从异常处理机制的角度所做的分类。<br>如果一个异常必须捕获，即该异常要由程序员来处理，那么它就是<code>Checked Exception</code>，包含<code>Exception</code>及其除了<code>RuntimeException</code>的其他子类。而如果一个异常不是必须捕获，那么它就是<code>Unchecked Exception</code>，包含<code>Error</code>类和<code>RuntimeException</code>类以及它们的子类。  </p>
+<p>对于<code>Unchecked Exception</code>，程序员不需要使用<code>try...catch</code>等机制来处理这些异常。编译器会帮助我们处理这些异常。但是它可能会导致程序运行失败，出现潜在的BUG。它类似于编程语言中的<code>dynamic type checking</code>，错误发生在运行时。</p>
+<p>对于<code>Checked Exception</code>，我们必须使用<code>try...catch</code>来处理，或者在方法声明时要添加到<code>throws</code>中，让调动它的方法来处理。如果我们不使用这些机制显试地处理这些异常，那么程序会报错，类似于编程语言中的<code>static type checking</code>，在编译期就会检测错误。</p>
+<p>当然，对于<code>Unchecked Exception</code>我们也可以采用<code>try...catch</code>机制来处理，但大多数时候是不需要的，也不应该这么做。这样做不利于BUG暴露出来。我们要让BUG较早显现，而不是掩耳盗铃。</p>
+<p>当要决定是采用<code>Unchecked Exception</code>还是<code>Checked Exception</code>的时候，问一个问题:“如果这种异常一旦抛出，客户端会采用怎样的补救?”</p>
+<p>如果客户端可以通过其他的方法恢复异常，那么采用<code>Checked Exception</code><br>如果客户端对出现的异常无能为力，那么采用<code>Unchecked Exception</code><br>一般我们应当努力的恢复，而不是简单地打印错误。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Youngsc</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://youngsc.cc/2021/07/03/Java4/">https://youngsc.cc/2021/07/03/Java4/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E8%BD%AF%E4%BB%B6%E6%9E%84%E9%80%A0/"># 软件构造</a>
+                    
+                        <a href="/tags/Java/"># Java</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2021/06/30/CSAPP_Final_Work/">深入理解计算机系统——程序人生</a>
+            
+        </section>
+
+
+    </article>
+</div>
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 2017-2021 Youngsc  | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a> | <span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        </span></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
