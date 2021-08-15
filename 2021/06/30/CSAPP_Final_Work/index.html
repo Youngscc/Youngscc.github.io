@@ -244,6 +244,17 @@
 <li><strong>进程</strong>：进程（Process）是计算机中的程序关于某数据集合上的一次运行活动，是系统进行资源分配和调度的基本单位，是操作系统结构的基础。在早期面向进程设计的计算机结构中，进程是程序的基本执行实体；在当代面向线程设计的计算机结构中，进程是线程的容器。程序是指令、数据及其组织形式的描述，进程是程序的实体。</li>
 </ul>
 <p>GCC编译器读取源代码文件hello.c，并且将其翻译成一个可执行文件hello，过程如下：</p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/KRicba3HAkQGzYS.png">
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 1-1 hello.c的编译过程</div>
+</center>
+
 <ul>
 <li><strong>预处理阶段</strong>：预处理器（cpp）根据以字符#开头的命令，修改原始的C程序，将#include命令包含的头文件/源代码读取并把它直接插入程序文本中。结果就得到了另一个C程序hello.i；</li>
 <li><strong>编译阶段</strong>：编译器（ccl）将文本文件hello.i翻译成文本文件hello.s，它包含一个汇编语言程序；</li>
@@ -292,12 +303,67 @@
 </ul>
 <h2 id="2-2在Ubuntu下预处理的命令"><a href="#2-2在Ubuntu下预处理的命令" class="headerlink" title="2.2在Ubuntu下预处理的命令"></a>2.2在Ubuntu下预处理的命令</h2><p>预处理过程我们有两种选择：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc -E hello.c -o hello.i</span><br><span class="line">cpp hello.c &gt; hello.i</span><br></pre></td></tr></table></figure>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/8rxXoLMw1ftQyY7.png">
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 2-1 预处理命令</div>
+</center>
 
-<h2 id="2-3-Hello的预处理结果解析"><a href="#2-3-Hello的预处理结果解析" class="headerlink" title="2.3 Hello的预处理结果解析"></a>2.3 Hello的预处理结果解析</h2><p>经过预处理后的hello.i文件为3065行，远大于原先hello.c的28行。<br>通过观察我们发现之前的#include部分内容全部消失，取而代之的是各个头文件的具体内容。以stdio.h的展开为例，cpp到默认的环境变量下寻找stdio.h，打开/usr/include/stdio.h发现其中依然使用了#define语句，cpp对此递归展开，所以最终.i程序中是没有#define的。而且发现其中使用了大量的#ifdef #ifndef的语句，cpp会对条件值进行判断来决定是否执行包含其中的逻辑。同时hello.c中对于代码翻译无意义的注释也消失。代码的主体内容得以保留。</p>
+<h2 id="2-3-Hello的预处理结果解析"><a href="#2-3-Hello的预处理结果解析" class="headerlink" title="2.3 Hello的预处理结果解析"></a>2.3 Hello的预处理结果解析</h2><center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/UucvNgSGLsYFqeW.png">
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 2-2 VScode打开hello.c内容</div>
+</center>
+  
+    
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/XMYKZbOGzeDIdi8.png">
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 2-3 VScode打开hello.i内容</div>
+</center>
+
+<p>经过预处理后的hello.i文件为3065行，远大于原先hello.c的28行。<br>通过观察我们发现之前的#include部分内容全部消失，取而代之的是各个头文件的具体内容。以stdio.h的展开为例，cpp到默认的环境变量下寻找stdio.h，打开/usr/include/stdio.h发现其中依然使用了#define语句，cpp对此递归展开，所以最终.i程序中是没有#define的。而且发现其中使用了大量的#ifdef #ifndef的语句，cpp会对条件值进行判断来决定是否执行包含其中的逻辑。同时hello.c中对于代码翻译无意义的注释也消失。代码的主体内容得以保留。</p>
 <h2 id="2-4-本章小结"><a href="#2-4-本章小结" class="headerlink" title="2.4 本章小结"></a>2.4 本章小结</h2><p>我们介绍了对于.c文件的预处理的指令以及预处理的效果，解析了预处理之后的结果，为后续步骤的进行做好基础。</p>
 <h1 id="第3章-编译"><a href="#第3章-编译" class="headerlink" title="第3章 编译"></a>第3章 编译</h1><h2 id="3-1-编译的概念与作用"><a href="#3-1-编译的概念与作用" class="headerlink" title="3.1 编译的概念与作用"></a>3.1 编译的概念与作用</h2><p>编译器会将某一种编程语言携程的源代码转换为另外一种编程语言，该过程我们称之为编译。在gcc编译C语言源程序的过程中，ccl将预处理后的.i文件翻译为.s文本文件，该文件包含一个汇编语言程序。<br>高级计算机语言便于人编写，阅读，维护。低阶机器语言是计算机能直接解读、运行的。编译器主要的目的是将便于人编写，阅读，维护的高级计算机语言所写作的源代码，翻译为计算机能解读、运行的低阶机器语言的程序。编译器将原始程序（Source program）作为输入，翻译产生使用目标语言（Target language）的等价程序。源代码一般为高阶语言 (High-level language), 如Pascal、C、C++、C#、Java等，而目标语言则是汇编语言或目标机器的目标代码（Object code），有时也称作机器代码（Machine code）。</p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/Tde8ArQg19h5pyf.png" width="50%" alt=""/>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 3-1 编译器的各个步骤</div>
+</center>
+
 <p>编译程序把一个源程序翻译成目标程序的工作过程分为六个阶段：词法分析；语法分析；语义分析；中间代码生成；代码优化；目标代码生成。</p>
 <h2 id="3-2-在Ubuntu下编译的命令"><a href="#3-2-在Ubuntu下编译的命令" class="headerlink" title="3.2 在Ubuntu下编译的命令"></a>3.2 在Ubuntu下编译的命令</h2> <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -S hello.i -o hello.s</span><br></pre></td></tr></table></figure>
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/tPFTBlbYcxEniqm.png">
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 3-2 gcc的编译过程指令</div>
+</center>
+
 <h2 id="3-3-Hello的编译结果解析"><a href="#3-3-Hello的编译结果解析" class="headerlink" title="3.3 Hello的编译结果解析"></a>3.3 Hello的编译结果解析</h2><h3 id="3-3-0-指令"><a href="#3-3-0-指令" class="headerlink" title="3.3.0 指令"></a>3.3.0 指令</h3><table>
 <thead>
 <tr>
@@ -345,41 +411,186 @@
 <h3 id="3-3-1-数据"><a href="#3-3-1-数据" class="headerlink" title="3.3.1 数据"></a>3.3.1 数据</h3><p>hello.s中使用到的数据类型有：整数、字符串、数组。</p>
 <h4 id="3-3-1-1-整数"><a href="#3-3-1-1-整数" class="headerlink" title="3.3.1.1 整数"></a>3.3.1.1 整数</h4><p>hello.c中的整数有：i、argc、sleepsecs。</p>
 <ol>
-<li><p>i: 上述代码为i变量的初始化为0操作，由于i为临时变量，因此被定义在栈上，通过栈顶相对寻址来进行访问。</p>
-</li>
+<li>i: 上述代码为i变量的初始化为0操作，由于i为临时变量，因此被定义在栈上，通过栈顶相对寻址来进行访问。</li>
+</ol>
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/tUcOgrqj32ivIJe.png" >
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 3-3 i在栈中的赋值初始化</div>
+</center>
+
+<ol start="2">
 <li><p>argc: 作为第一个参数，argc最初在寄存器%edi中，随后被复制到栈里进行操作，通过栈顶相对寻址的方式进行访问。</p>
-</li>
+<center>
+ <img style="border-radius: 0.3125em;
+ box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+ src="https://i.loli.net/2021/08/15/EhL27WuCligbaAU.png" >
+ <br>
+ <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+ display: inline-block;
+ color: #999;
+ padding: 2px;">图 3-4 argc在栈中的赋值操作</div>
+</center></li>
 <li><p>sleepsecs: 在C程序中被声明为全局变量，且已经被赋值，编译器处理时在.data节声明该变量，.data节存放已经初始化的全局和静态C变量。在图3.3中，可以看到，编译器首先将sleepsecs在.text代码段中声明为全局变量，其次在.data段中，设置对齐方式为4、设置类型为对象、设置大小为4字节、设置为long类型其值为2。</p>
-</li>
+<center>
+ <img style="border-radius: 0.3125em;
+ box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+ src="https://i.loli.net/2021/08/15/VP9UdlY43wJeuiB.png" width=60%>
+ <br>
+ <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+ display: inline-block;
+ color: #999;
+ padding: 2px;">图 3-5 sleepsecs的定义</div>
+</center></li>
 </ol>
 <h4 id="3-3-1-2-字符串"><a href="#3-3-1-2-字符串" class="headerlink" title="3.3.1.2 字符串"></a>3.3.1.2 字符串</h4><p>程序中的字符串分别是：</p>
 <ol>
 <li>“Usage: Hello 学号 姓名！\n”，第一个printf传入的输出格式化参数，在hello.s中声明如图3-6，可以发现字符串被编码成UTF-8格式，一个汉字在utf-8编码中占三个字节，一个\代表一个字节。</li>
 <li>“Hello %s %s\n”，第二个printf传入的输出格式化参数，在hello.s中声明如图3-6。字符串都声明在.section与.rodata中。</li>
 </ol>
-<h4 id="3-3-1-3-数组"><a href="#3-3-1-3-数组" class="headerlink" title="3.3.1.3 数组"></a>3.3.1.3 数组</h4><p>程序中的数组为argv[]，作为第二个参数传入，是一个字符串数组，存储在栈上，在hello.s中，我们可以通过-32(%rbp)访问。</p>
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/1qX6h8stInJzjLN.png">
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 3-6 字符串在hello.s中的定义</div>
+</center>
+ 
+#### 3.3.1.3 数组
+    
+程序中的数组为argv[]，作为第二个参数传入，是一个字符串数组，存储在栈上，在hello.s中，我们可以通过-32(%rbp)访问。
+
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/q8hP3IrWk4CmK7D.png">
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 3-7 argv在程序中的访问</div>
+</center>
+
 <h3 id="3-3-2-赋值"><a href="#3-3-2-赋值" class="headerlink" title="3.3.2 赋值"></a>3.3.2 赋值</h3><p>程序中的赋值操作有：</p>
 <ol>
-<li><p>int sleepsecs=2.5: 由于sleepsecs为全局变量，因此直接在.data节中将sleepsecs声明为值2的long类型数据。</p>
-</li>
-<li><p>i=0：整型数据的赋值通过mov指令来完成，由于i是int类型,因此使用movl指令。</p>
-</li>
+<li>int sleepsecs=2.5: 由于sleepsecs为全局变量，因此直接在.data节中将sleepsecs声明为值2的long类型数据。</li>
+</ol>
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/7Zfon5KEsNedD1M.png">
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 3-8 sleepsecs的定义</div>
+</center>
+
+<ol start="2">
+<li>i=0：整型数据的赋值通过mov指令来完成，由于i是int类型,因此使用movl指令。<center>
+ <img style="border-radius: 0.3125em;
+ box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+ src="https://i.loli.net/2021/08/15/CnZ3EmMRPGg6WhV.png">
+ <br>
+ <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+ display: inline-block;
+ color: #999;
+ padding: 2px;">图 3-9 i的赋值</div>
+</center></li>
 </ol>
 <h3 id="3-3-3-算术操作"><a href="#3-3-3-算术操作" class="headerlink" title="3.3.3 算术操作"></a>3.3.3 算术操作</h3><p>代码中的算术操作为i的自增，通过addl指令来实现。</p>
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/95KWlvxUtOzmo6p.png">
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 3-10 i自增在代码中的体现</div>
+</center>
+
 <h3 id="3-3-4-关系操作"><a href="#3-3-4-关系操作" class="headerlink" title="3.3.4 关系操作"></a>3.3.4 关系操作</h3><p>hello中的关系比较操作有：“!=”和“&lt;”。</p>
 <ol>
-<li><p>argc!=3：判断argc是否不等于3，通过cmpl函数来设置条件码ZF，若ZF等于1则两个数字相等，反之不等，为其他指令判断该条件是否成立做准备。</p>
-</li>
-<li><p>i&lt;10：判断i是否小于10，同样通过cmpl函数，将i与9进行比较来设置条件码，若后者小于等于前者则表示循环未结束，接着进行循环，否则跳出。</p>
-</li>
+<li>argc!=3：判断argc是否不等于3，通过cmpl函数来设置条件码ZF，若ZF等于1则两个数字相等，反之不等，为其他指令判断该条件是否成立做准备。</li>
 </ol>
-<h3 id="3-3-5-类型转换"><a href="#3-3-5-类型转换" class="headerlink" title="3.3.5 类型转换"></a>3.3.5 类型转换</h3><p>程序中设计的隐式类型转换int sleepsecs=2.5。由于在C中浮点数默认的数据类型为double，因此该语句为double转换为int，遵循向零舍入的原则，2.5被转化为int类型的2。</p>
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/nTIx5vQiyKfRrup.png">
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 3-11 argc!=3在代码中的体现</div>
+</center>
+
+<ol start="2">
+<li>i&lt;10：判断i是否小于10，同样通过cmpl函数，将i与9进行比较来设置条件码，若后者小于等于前者则表示循环未结束，接着进行循环，否则跳出。</li>
+</ol>
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/k2htPARDo6gBvri.png">
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 3-12 i<10在代码中的体现 </div>
+</center>
+ 
+### 3.3.5 类型转换
+程序中设计的隐式类型转换int sleepsecs=2.5。由于在C中浮点数默认的数据类型为double，因此该语句为double转换为int，遵循向零舍入的原则，2.5被转化为int类型的2。
+
 <h3 id="3-3-6-数组操作"><a href="#3-3-6-数组操作" class="headerlink" title="3.3.6 数组操作"></a>3.3.6 数组操作</h3><p>hello.c中只对argv数组进行访问，通过间接寻址的方式，每次通过对%rax获得argv+x的值，然后通过(%rax)访问argv[x]。</p>
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/N7BtYWuXhSbpqEy.png" width=50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 3-13 数组元素的访问 </div>
+</center>
+ 
+
 <h3 id="3-3-7-控制转移"><a href="#3-3-7-控制转移" class="headerlink" title="3.3.7 控制转移"></a>3.3.7 控制转移</h3><p>程序中涉及转移的有：</p>
 <ol>
 <li>if语句中如果argc!=3将执行花括号中的代码片段，这里通过if实现了控制的跳转。</li>
-<li>for语句中在最后判断循环终止条件时，如果不满足则跳转到循环开始的地方重新执行，否则跳出循环。</li>
 </ol>
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/2hieQMHgCxyz6Lo.png">
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 3-14 if的跳转 </div>
+</center>
+ 
+2. for语句中在最后判断循环终止条件时，如果不满足则跳转到循环开始的地方重新执行，否则跳出循环。
+
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/MRimvOdobPGwAZT.png">
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 3-15 for的跳转 </div>
+</center>
+
 <h3 id="3-3-8-函数操作"><a href="#3-3-8-函数操作" class="headerlink" title="3.3.8 函数操作"></a>3.3.8 函数操作</h3><p>函数是一种过程，过程提供了一种封装代码的方式，用一组指定的参数和可选的返回值实现某种功能。P中调用函数Q包含以下动作：</p>
 <ul>
 <li>传递控制：进行过程Q的时候，程序计数器必须设置为Q的代码的起始地址，然后在返回时，要把程序计数器设置为P中调用Q后面那条指令的地址。</li>
@@ -418,11 +629,77 @@
 <h1 id="第4章-汇编"><a href="#第4章-汇编" class="headerlink" title="第4章 汇编"></a>第4章 汇编</h1><h2 id="4-1-汇编的概念与作用"><a href="#4-1-汇编的概念与作用" class="headerlink" title="4.1 汇编的概念与作用"></a>4.1 汇编的概念与作用</h2><p>汇编器（as）将.s汇编程序翻译成机器语言指令，把这些指令打包成可重定位目标程序的格式，并将结果保存在.o目标文件中，.o文件是一个二进制文件，它包含程序的指令编码。这个过程称为汇编，亦即汇编的作用。通过这个过程，我们可以将汇编代码转化为机器可以理解的机器码。   </p>
 <h2 id="4-2-在Ubuntu下汇编的命令"><a href="#4-2-在Ubuntu下汇编的命令" class="headerlink" title="4.2 在Ubuntu下汇编的命令"></a>4.2 在Ubuntu下汇编的命令</h2><p>预处理过程我们有两种指令：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">as hello.s -o hello.o</span><br><span class="line">gcc hello.s -c -o hello.o</span><br></pre></td></tr></table></figure>
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/aWHmZ9QXoOijC5N.png" >
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 4-1 汇编指令 </div>
+</center>
 
-<h2 id="4-3-可重定位目标elf格式"><a href="#4-3-可重定位目标elf格式" class="headerlink" title="4.3 可重定位目标elf格式"></a>4.3 可重定位目标elf格式</h2><h3 id="4-3-0-ELF结构与指令"><a href="#4-3-0-ELF结构与指令" class="headerlink" title="4.3.0 ELF结构与指令"></a>4.3.0 ELF结构与指令</h3><p>ELF是一种Unix二进制文件，它可能是可链接文件，也可能是可执行文件。</p>
+<h2 id="4-3-可重定位目标elf格式"><a href="#4-3-可重定位目标elf格式" class="headerlink" title="4.3 可重定位目标elf格式"></a>4.3 可重定位目标elf格式</h2><h3 id="4-3-0-ELF结构与指令"><a href="#4-3-0-ELF结构与指令" class="headerlink" title="4.3.0 ELF结构与指令"></a>4.3.0 ELF结构与指令</h3> <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/nFI1LxPK4AOmG5z.jpg" width=50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 4-2 可重定位目标文件ELF格式 </div>
+</center>
+
+
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/lh4oUCRvKay7Ttk.png" >
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 4-3 elf文件指令 </div>
+</center>
+
+<p>ELF是一种Unix二进制文件，它可能是可链接文件，也可能是可执行文件。</p>
 <h3 id="4-3-1-ELF-Header"><a href="#4-3-1-ELF-Header" class="headerlink" title="4.3.1 ELF Header"></a>4.3.1 ELF Header</h3><p>ELF头以一个16B的序列Magic开始，Magic描述了生成该文件的系统的字的大小和字节顺序，ELF头剩下的部分包含帮助链接器语法分析和解释目标文件的信息，其中包括ELF头的大小、目标文件的类型、机器类型、字节头部表（section header table）的文件偏移，以及节头部表中条目的大小和数量等信息。</p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/g3VDGWnNZsBPRMq.png" width=60%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 4-4 ELF Header </div>
+</center>
+
 <h3 id="4-3-2-Section-Headers"><a href="#4-3-2-Section-Headers" class="headerlink" title="4.3.2 Section Headers"></a>4.3.2 Section Headers</h3><p>节头部表，用于描述目标文件的节，包含了文件中出现的各个节的语义，包括节的类型、位置和大小等信息。</p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/PyenaQMXvpl1RjS.png" width=60%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 4-5 Section Headers </div>
+</center>
+
 <h3 id="4-3-3-重定位节"><a href="#4-3-3-重定位节" class="headerlink" title="4.3.3 重定位节"></a>4.3.3 重定位节</h3><p>重定位节.rela.text ,一个.text节中位置的列表，包含.text节中需要进行重定位的信息，当链接器把这个目标文件和其他文件组合时，需要修改这些位置。如图4-6，图中8条重定位信息分别是对.L0（第一个printf中的字符串）、puts函数、exit函数、.L1（第二个printf中的字符串）、printf函数、sleepsecs、sleep函数、getchar函数进行重定位声明。  </p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/qIXfAnTPZ1vbHdi.png" width=60%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 4-6 重定位节 </div>
+</center>
+
 <ul>
 <li>偏移量：指所引用的符号的相对偏移，或者说符号应该填在程序的哪个位置。例如，第二行中，puts的偏移量为0x000000000021。这就相当于告诉链接器，需要修改开始于偏移量0x21处的32位PC相对引用，使它在运行时指向puts函数。</li>
 <li>信息，包括符号和类型两部分，共占8个字节。其中，前4个字节表示符号，后4个字节表示类型。符号代表重定位到的目标在.symtab节中的偏移量，类型则包括相对地址引用和绝对地址应用。</li>
@@ -430,9 +707,31 @@
 <li>符号值，就是符号代表的值。</li>
 <li>符号名称是重定位目标的名字，可能是节名、变量名、函数名等；加数则是用于对被修改的引用值做偏移调整。<h3 id="4-3-4-符号表"><a href="#4-3-4-符号表" class="headerlink" title="4.3.4 符号表"></a>4.3.4 符号表</h3>符号表保存了程序中所用的各种符号的信息，包括文件名、函数名、全局变量名、静态（私有）变量名等。</li>
 </ul>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/QAgMVCdWhDLeX5n.png" width=50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 4-7 符号表 </div>
+</center>
+
 <h2 id="4-4-Hello-o的结果解析"><a href="#4-4-Hello-o的结果解析" class="headerlink" title="4.4 Hello.o的结果解析"></a>4.4 Hello.o的结果解析</h2><p>我们使用命令</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">objdump -d -r hello.o &gt; helloo.objdump</span><br></pre></td></tr></table></figure>
 <p>获得反汇编代码。</p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/HqdwloJkC7camzg.png" width=50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 4-8 反汇编代码 </div>
+</center>
+
 <p>将hello.s与hello.objdump对比之后我们发现：</p>
 <ol>
 <li>   伪指令消失：hello.s中许多“.”开头的伪指令在hello.objdump消失。</li>
@@ -444,21 +743,129 @@
 <h1 id="第5章-链接"><a href="#第5章-链接" class="headerlink" title="第5章 链接"></a>第5章 链接</h1><h2 id="5-1-链接的概念与作用"><a href="#5-1-链接的概念与作用" class="headerlink" title="5.1 链接的概念与作用"></a>5.1 链接的概念与作用</h2><p>链接是C源代码编译的最后一步，它是指为了生成可执行文件，将有关的目标文件连接起来，使得这些目标文件成为操作系统可以装载执行的统一整体的过程。例如，在A文件中引用的符号将同该符号在B文件中的定义连接起来，从而形成一个可执行的整体。<br>链接分为两种模式：</p>
 <ul>
 <li>静态链接。静态链接时，外部函数的代码将从其所在的静态链接库中拷贝到最终的可执行程序中。这样，程序执行时，这些代码就会被装入到对应进程的虚拟内存空间里。这里的静态链接库实际上是一个目标文件的集合，其中的每个文件含有库中的一个或者一组相关函数的代码。</li>
-<li>动态链接。动态链接中，外部函数的代码被放到动态链接库或共享对象的某个目标文件中（通常以.so为后缀名）。链接器在链接时所做的只是在生成的可执行文件中记下共享对象的名字等少量信息。在可执行文件运行行时，动态链接库的全部内容将被映射到相应进程的虚拟内存空间。动态链接程序将根据可执行程序中记录的信息找到相应的函数代码。<h2 id="5-2-在Ubuntu下链接的命令"><a href="#5-2-在Ubuntu下链接的命令" class="headerlink" title="5.2 在Ubuntu下链接的命令"></a>5.2 在Ubuntu下链接的命令</h2>执行的命令为：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ld -o hello -dynamic-linker /lib64/ld-linux-x86-64.so.2 /usr/lib/x86_64-linux-gnu/crt1.o /usr/lib/x86_64-linux-gnu/crti.o hello.o /usr/lib/x86_64-linux-gnu/libc.so /usr/lib/x86_64-linux-gnu/crtn.o</span><br></pre></td></tr></table></figure></li>
+<li>动态链接。动态链接中，外部函数的代码被放到动态链接库或共享对象的某个目标文件中（通常以.so为后缀名）。链接器在链接时所做的只是在生成的可执行文件中记下共享对象的名字等少量信息。在可执行文件运行行时，动态链接库的全部内容将被映射到相应进程的虚拟内存空间。动态链接程序将根据可执行程序中记录的信息找到相应的函数代码。<h2 id="5-2-在Ubuntu下链接的命令"><a href="#5-2-在Ubuntu下链接的命令" class="headerlink" title="5.2 在Ubuntu下链接的命令"></a>5.2 在Ubuntu下链接的命令</h2>执行的命令为：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ld -o hello -dynamic-linker /lib64/ld-linux-x86-64.so.2 /usr/lib/x86_64-linux-gnu/crt1.o /usr/lib/x86_64-linux-gnu/crti.o hello.o /usr/lib/x86_64-linux-gnu/libc.so /usr/lib/x86_64-linux-gnu/crtn.o</span><br></pre></td></tr></table></figure>
+<center>
+  <img style="border-radius: 0.3125em;
+  box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+  src="https://i.loli.net/2021/08/15/y7gFPqOb49ZpMeL.png">
+  <br>
+  <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+  display: inline-block;
+  color: #999;
+  padding: 2px;">图 5-1 链接命令 </div>
+</center></li>
 </ul>
 <h2 id="5-3-可执行目标文件hello的格式"><a href="#5-3-可执行目标文件hello的格式" class="headerlink" title="5.3 可执行目标文件hello的格式"></a>5.3 可执行目标文件hello的格式</h2><h3 id="5-3-0-ELF结构与指令"><a href="#5-3-0-ELF结构与指令" class="headerlink" title="5.3.0 ELF结构与指令"></a>5.3.0 ELF结构与指令</h3><p>使用</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">readelf -a hello &gt; hello.elf</span><br></pre></td></tr></table></figure>
 <p>命令生成 hello 程序的 ELF 格式文件。</p>
-<h3 id="5-3-1-ELF-Header"><a href="#5-3-1-ELF-Header" class="headerlink" title="5.3.1 ELF Header"></a>5.3.1 ELF Header</h3><p>也可以直接输入命令 </p>
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/rYKo9ybTStefWsO.jpg" width=50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 5-2 可执行目标文件的ELF格式 </div>
+</center>
+ 
+### 5.3.1 ELF Header
+
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/YMcbV6ghmK18yBC.png" width = 50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 5-3 ELF Header </div>
+</center>
+
+<p>也可以直接输入命令 </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">readelf -a hello</span><br></pre></td></tr></table></figure>
 <p>查看ELF头信息。<br>ELF头以一个16字节的序列开始，这个序列描述了生成该文件的系统的节的大小和字节顺序。ELF头剩下的部分还包括ELF头的大小、目标文件的类型、机器类型、节头部表的文件偏移、以及节头部表的大小和数目。</p>
-<h3 id="5-3-2-Section-Headers"><a href="#5-3-2-Section-Headers" class="headerlink" title="5.3.2 Section Headers"></a>5.3.2 Section Headers</h3><p>我们会发现相比与hello.o，hello的节头部表有25项，比hello.o多了12项。节头部表对hello中所有的节信息进行了声明，包括大小size以及在程序中的偏移量offset，大小、全体大小、旗标、链接、信息、对齐等信息，并可以根据此定位各个节所占的区间。由于链接时使用的是动态链接，所以hello可执行文件仍然具有.rela.*的重定位节，便于使用动态链接共享库。.init节定义了一个小函数_init，程序的初始化代码会调用它。</p>
-<h3 id="5-3-3-程序头表"><a href="#5-3-3-程序头表" class="headerlink" title="5.3.3 程序头表"></a>5.3.3 程序头表</h3><p>程序头部表描述了可执行文件的连续的片和连续的内存段的映射关系。</p>
+<h3 id="5-3-2-Section-Headers"><a href="#5-3-2-Section-Headers" class="headerlink" title="5.3.2 Section Headers"></a>5.3.2 Section Headers</h3> <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/P28hNzOTs6Fn5Ep.png" width = 50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 5-4 Section Headers </div>
+</center>
+
+<p>我们会发现相比与hello.o，hello的节头部表有25项，比hello.o多了12项。节头部表对hello中所有的节信息进行了声明，包括大小size以及在程序中的偏移量offset，大小、全体大小、旗标、链接、信息、对齐等信息，并可以根据此定位各个节所占的区间。由于链接时使用的是动态链接，所以hello可执行文件仍然具有.rela.*的重定位节，便于使用动态链接共享库。.init节定义了一个小函数_init，程序的初始化代码会调用它。</p>
+<h3 id="5-3-3-程序头表"><a href="#5-3-3-程序头表" class="headerlink" title="5.3.3 程序头表"></a>5.3.3 程序头表</h3> <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/63Xxa8OQMJLiIv1.png" width = 50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 5-5 程序头表 </div>
+</center>
+
+<p>程序头部表描述了可执行文件的连续的片和连续的内存段的映射关系。</p>
 <h3 id="5-3-4-其余信息"><a href="#5-3-4-其余信息" class="headerlink" title="5.3.4 其余信息"></a>5.3.4 其余信息</h3><p>段映射如下：</p>
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/LO3I2E9vDTpsZ5N.png" width = 50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 5-6 段映射 </div>
+</center>
+
 <p>动态节项目信息如下：</p>
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/cM9L24Ai1kWxH6V.png" width = 50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 5-7 动态节项目信息 </div>
+</center>
+
 <p>重定位节信息如下：</p>
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/sEwHuILCNGKgaRn.png" width = 50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 5-8 重定位节 </div>
+</center>
+
 <p>符号表如下：</p>
-<h2 id="5-4-hello的虚拟地址空间"><a href="#5-4-hello的虚拟地址空间" class="headerlink" title="5.4 hello的虚拟地址空间"></a>5.4 hello的虚拟地址空间</h2><p>Edb打开hello后的Data Dump如下：<br>由图5-10我们可以看到hello隔断的虚拟地址空间被限制在0x401000到0x402000之间。<br>查看图5-5我么可以看到ELF格式文件中的Program Headers，程序头表在执行的时候被使用，它告诉链接器运行时加载的内容并提供动态链接的信息。每一个表项提供了各段在虚拟地址空间和物理地址空间的大小、位置、标志、访问权限和对齐方面的信息。在下面可以看出，程序包含7个段：</p>
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/am7rygxZh2XVlMU.png" width=50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 5-9 符号表 </div>
+</center>
+
+<h2 id="5-4-hello的虚拟地址空间"><a href="#5-4-hello的虚拟地址空间" class="headerlink" title="5.4 hello的虚拟地址空间"></a>5.4 hello的虚拟地址空间</h2><p>Edb打开hello后的Data Dump如下：<br> <center><br>    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/ghxeBXl9SsOk5FA.png"><br>    <br><br>    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 5-10 Data Dump </div></p>
+</center> 
+
+<p>由图5-10我们可以看到hello隔断的虚拟地址空间被限制在0x401000到0x402000之间。<br>查看图5-5我么可以看到ELF格式文件中的Program Headers，程序头表在执行的时候被使用，它告诉链接器运行时加载的内容并提供动态链接的信息。每一个表项提供了各段在虚拟地址空间和物理地址空间的大小、位置、标志、访问权限和对齐方面的信息。在下面可以看出，程序包含7个段：</p>
 <ul>
 <li>PHDR 保存程序头表。</li>
 <li>INTERP 指定在程序已经从可执行文件映射到内存之后，必须调用的解释器（如动态链接器）。</li>
@@ -567,6 +974,17 @@
 <li>   对映共享区域：如果hello程式与共享物件连结，那么这些物件都是动态连结到这个程式的，然后再对映到使用者虚拟地址空间中的共享区域内。</li>
 <li>   设定程式计数器：设定当前程序上下文中的程序计数器，使之指向代码区域的入口点。下一次运行这个程序时，它将从这个入口点开始执行。</li>
 </ol>
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/GZiuwj9z3Platde.png" width=50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 6-1 新程序开始时用户栈的典型组织结构</div>
+</center>
+
 <h2 id="6-5-Hello的进程执行"><a href="#6-5-Hello的进程执行" class="headerlink" title="6.5 Hello的进程执行"></a>6.5 Hello的进程执行</h2><ul>
 <li><strong>逻辑控制流</strong>：一系列程序计数器PC的值的序列叫做逻辑控制流，进程是轮流使用处理器的，在同一个处理器核心中，每个进程执行它的流的一部分后被抢占（暂时挂起），然后轮到其他进程。</li>
 <li><strong>时间片</strong>：一个进程执行它的控制流的一部分的每一时间段叫做时间片。</li>
@@ -575,13 +993,24 @@
 </ul>
 <p>系统中每个程序都运行在某个进程的上下文中。上下文是由程序正确运行所需的状态组成的。这个状态包括存放在内存中的程序的代码和数据，它的栈、通用目的的寄存器的内容、程序计数器、环境变量以及打开文件描述符的集合。  </p>
 <p>内核为每个进程维护了一个上下文。当内核选择的一个新的进程运行时，我们说内核调度了这个进程。所以当内核调度了hello这个新的进程运行后，它就抢占当前进程，并使用一种称为上下文切换的机制来将控制转移到新的进程，上下文切换会首先保存当前进程的上下文，然后恢复新恢复进程被保存的上下文，最后控制传递给这个新恢复的进程 ，来完成上下文切换。</p>
-<h2 id="6-6-hello的异常与信号处理"><a href="#6-6-hello的异常与信号处理" class="headerlink" title="6.6 hello的异常与信号处理"></a>6.6 hello的异常与信号处理</h2><p>hello执行过程中出现的可能的异常种类会有四种：</p>
-<ul>
-<li><strong>中断</strong>:中断是异步发生的，是来自处理器外部的I/O设备的信号的结果。硬件中断的异常处理程序被称为中断处理程序。</li>
-<li><strong>陷阱</strong>:陷阱是有意的异常，是执行一条指令的结果。就像中断处理程序一样，陷阱处理程序将控制返回到下一条指令。陷阱最重要的用途是在用户程序和内核之间提供一个像过程一样的接口，叫做系统调用。</li>
-<li><strong>故障</strong>:故障由错误情况引起，它可能能够被故障处理程序修正。当故障发生时，处理器将控制转移给故障处理程序。如果处理程序能够修正这个错误情况，它就将控制返回到引起故障的指令，从而重新执行它。否则处理程序返回到内核中的abort例程，abort例程会终止引起故障的应用程序。</li>
-<li><strong>终止</strong>:终止是不可恢复的致命错误造成的结果，通常是一些硬件错误，比如DRAM或者SRAM位被损坏时发生的奇偶错误。终止处理程序从不将控制返回给应用程序。处理程序将控制返回给一个abort例程，该例程会终止这个应用程序。 </li>
-</ul>
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/Hmr4MXJfqiTWzjl.png" width=50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 6-2 进程间切换</div>
+</center>
+ 
+## 6.6 hello的异常与信号处理
+hello执行过程中出现的可能的异常种类会有四种：
+- **中断**:中断是异步发生的，是来自处理器外部的I/O设备的信号的结果。硬件中断的异常处理程序被称为中断处理程序。
+- **陷阱**:陷阱是有意的异常，是执行一条指令的结果。就像中断处理程序一样，陷阱处理程序将控制返回到下一条指令。陷阱最重要的用途是在用户程序和内核之间提供一个像过程一样的接口，叫做系统调用。
+- **故障**:故障由错误情况引起，它可能能够被故障处理程序修正。当故障发生时，处理器将控制转移给故障处理程序。如果处理程序能够修正这个错误情况，它就将控制返回到引起故障的指令，从而重新执行它。否则处理程序返回到内核中的abort例程，abort例程会终止引起故障的应用程序。
+- **终止**:终止是不可恢复的致命错误造成的结果，通常是一些硬件错误，比如DRAM或者SRAM位被损坏时发生的奇偶错误。终止处理程序从不将控制返回给应用程序。处理程序将控制返回给一个abort例程，该例程会终止这个应用程序。 
+
 <p>hello执行时，还可以发送或接收<strong>信号</strong>。信号是一种系统消息，它用于通知进程系统中发生了某种类型的事件，是一种更高层的软件形式的异常。不同的事件对应不同的信号类型。信号传送到目的进程由发送和接收两个步骤组成。信号的发送者一般是内核，接收者是进程。  </p>
 <p>发送信号可以有如下两种原因：</p>
 <ul>
@@ -592,11 +1021,58 @@
 <p>待处理信号指的是已经发送而没有接收的信号。任何时候，一种信号类型至多有一个待处理信号，即信号不会排队。</p>
 <p>进程可以有选择性地阻塞接收某种信号。被阻塞的信号仍可以发出，但不会被目标进程接收。  </p>
 <p>正常运行如下：</p>
-<p>过程中乱按如下：</p>
-<p>如果乱按过程中没有回车，这个时候只是把输入屏幕的字符串缓存起来，如果输入了回车，getchar读入缓存，并把回车后的字符串当作shell输入的命令，然后再程序结束后试图运行这些命令。</p>
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/ozYHEwaxdCGZrvL.png" width=50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 6-3 正常运行</div>
+</center>
+ 
+过程中乱按如下：
+
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/Y2RVLhv6Kzdpqkl.png" width=50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 6-4 过程中乱按</div>
+</center>
+ 
+如果乱按过程中没有回车，这个时候只是把输入屏幕的字符串缓存起来，如果输入了回车，getchar读入缓存，并把回车后的字符串当作shell输入的命令，然后再程序结束后试图运行这些命令。
+
 <p>过程中输入crtl-c如下：</p>
-<p>Ctrl-C操作向进程发送了一个SIGINT信号，让进程终止，输入ps指令可以发现hello进程已经被回收。</p>
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/SOhEnmDZLWU1Qwf.png" width=50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 6-5 ctrl-c</div>
+</center>
+ 
+Ctrl-C操作向进程发送了一个SIGINT信号，让进程终止，输入ps指令可以发现hello进程已经被回收。
+
 <p>过程中输入crtl-z如下：</p>
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/xJhk1QG2p37lzEr.png" width=50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 6-6 ctrl-z</div>
+</center>
+
 <p>Ctrl-Z操作向进程发送了一个SIGTSTP信号，让进程暂时挂起，输入jobs、ps指令可以发现hello进程在后台挂起，且进程号为1，通过fg指令可以恢复运行。</p>
 <h2 id="6-7本章小结"><a href="#6-7本章小结" class="headerlink" title="6.7本章小结"></a>6.7本章小结</h2><p>本章描述了hello进程管理，介绍了进程的概念和作用，以及shell如何运行hello程序。为了高效地描述系统中发生的各类事件，则需要用到信号，这是一种更高层级的软件形式的异常。利用信号，内核和进程之间得以高效地传递信息并对各类事件做出相应的反应。</p>
 <h1 id="第7章-hello的存储管理"><a href="#第7章-hello的存储管理" class="headerlink" title="第7章 hello的存储管理"></a>第7章 hello的存储管理</h1><h2 id="7-1-hello的存储器地址空间"><a href="#7-1-hello的存储器地址空间" class="headerlink" title="7.1 hello的存储器地址空间"></a>7.1 hello的存储器地址空间</h2><p>计算机系统的主存被组织成一个由M个连续的字节大小的单元组成的数组。每字节都有唯一的物理地址，它是指在地址总线上、以电子形式存在的、使得数据总线可以访问主存的某个特定存储单元的内存地址。利用物理地址寻址，是CPU最自然的访问内存的方式。接下来是几个具体概念：</p>
@@ -629,11 +1105,35 @@
 <p>解析前提条件：由一个页表大小4KB，一个PTE条目8B，共512个条目，使用9位二进制索引，一共4个页表共使用36位二进制索引，所以VPN共36位，因为VA 48位，所以VPO 12位；因为TLB共16组，所以TLBI需4位，因为VPN 36位，所以TLBT 32位。  </p>
 <p>CPU产生虚拟地址VA，VA传送给MMU，MMU使用前36位VPN作为TLBT（前32位）+TLBI（后4位）向TLB中匹配，如果命中，则得到PPN（40bit）与VPO（12bit）组合成PA（52bit）。</p>
 <p>如果TLB中没有命中，MMU向页表中查询，CR3确定第一级页表的起始地址，VPN1（9bit）确定在第一级页表中的偏移量，查询出PTE，如果在物理内存中且权限符合，确定第二级页表的起始地址，以此类推，最终在第四级页表中查询到PPN，与VPO组合成PA，并且向TLB中添加条目。</p>
-<p>如果查询PTE的时候发现不在物理内存中，则引发缺页故障。如果发现权限不够，则引发段错误。  </p>
-<h2 id="7-5-三级Cache支持下的物理内存访问"><a href="#7-5-三级Cache支持下的物理内存访问" class="headerlink" title="7.5 三级Cache支持下的物理内存访问"></a>7.5 三级Cache支持下的物理内存访问</h2><p>前提：只讨论L1 Cache的寻址细节，L2与L3Cache原理相同。L1 Cache是8路64组相联。块大小为64B。  </p>
+<p>如果查询PTE的时候发现不在物理内存中，则引发缺页故障。如果发现权限不够，则引发段错误。</p>
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/ducAHWD2yf43oJB.png" width=50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 7-1 四级页表下的VA到PA的变换</div>
+</center>
+ 
+## 7.5 三级Cache支持下的物理内存访问
+前提：只讨论L1 Cache的寻址细节，L2与L3Cache原理相同。L1 Cache是8路64组相联。块大小为64B。  
+
 <p>解析前提条件：因为共64组，所以需要6bit CI进行组寻址，因为共有8路，因为块大小为64B所以需要6bit CO表示数据偏移位置，因为VA共52bit，所以CT共40bit。  </p>
 <p>在上一步中我们已经获得了物理地址VA，使用CI（后六位再后六位）进行组索引，每组8路，对8路的块分别匹配CT（前40位）如果匹配成功且块的valid标志位为1，则命中（hit），根据数据偏移量CO（后六位）取出数据返回。  </p>
 <p>如果没有匹配成功或者匹配成功但是标志位是1，则不命中（miss），向下一级缓存中查询数据（L2 Cache-&gt;L3 Cache-&gt;主存）。查询到数据之后，一种简单的放置策略如下：如果映射到的组内有空闲块，则直接放置，否则组内都是有效块，产生冲突（evict），则采用最近最少使用策略LFU进行替换。</p>
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/1p6yauQx37eksR2.png" width=50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 7-2 三级Cache支持下的物理内存访问</div>
+</center>
+
 <h2 id="7-6-hello进程fork时的内存映射"><a href="#7-6-hello进程fork时的内存映射" class="headerlink" title="7.6 hello进程fork时的内存映射"></a>7.6 hello进程fork时的内存映射</h2><p>当fork函数被shell调用时，内核为hello创建各种数据结构，并分配一个唯一的PID。为了给hello创建虚拟内存，它创建了当前进程的mm_struct、区域结构和页表的原样副本。它将两个进程中的每个页面都标记为只读，并将两个进程中的每个区域结构都标记为私有的写时复制。  </p>
 <p>当fork在hello进程中返回时，hello现在的虚拟内存刚好和调用fork时存在的虚拟内存相同。当这两个进程中的任一个后来进行写操作时，写时复制机制就会创建新的页面，因此，也就为每个进程保持了私有地址空间的抽象概念。</p>
 <h2 id="7-7-hello进程execve时的内存映射"><a href="#7-7-hello进程execve时的内存映射" class="headerlink" title="7.7 hello进程execve时的内存映射"></a>7.7 hello进程execve时的内存映射</h2><p>execve函数调用驻留在内核区域的启动加载器代码，在当前进程中加载并运行包含在可执行目标文件hello中的程序，用hello程序有效地替代了当前程序。加载并运行hello需要以下几个步骤：</p>
@@ -643,7 +1143,29 @@
 <li>映射共享区域，hello程序与共享对象libc.so链接，libc.so是动态链接到这个程序中的，然后再映射到用户虚拟地址空间中的共享区域内。</li>
 <li>设置程序计数器（PC），execve做的最后一件事情就是设置当前进程上下文的程序计数器，使之指向代码区域的入口点。</li>
 </ol>
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/Ul5jtahn79PIwfW.png" width=50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 7-3 加载器映射到用户地址空间区域</div>
+</center>
+
 <h2 id="7-8-缺页故障与缺页中断处理"><a href="#7-8-缺页故障与缺页中断处理" class="headerlink" title="7.8 缺页故障与缺页中断处理"></a>7.8 缺页故障与缺页中断处理</h2><p>缺页故障是一种常见的故障，当指令引用一个虚拟地址，在MMU中查找页表时发现与该地址相对应的物理地址不在内存中，因此必须从磁盘中取出的时候就会发生故障。其处理流程遵循图7-4所示的故障处理流程。</p>
+ <center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/Kyzd8lJANfxG5gP.png" width=50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 7-4 故障处理流程</div>
+</center>
+
 <h2 id="7-9动态存储分配管理"><a href="#7-9动态存储分配管理" class="headerlink" title="7.9动态存储分配管理"></a>7.9动态存储分配管理</h2><p>动态内存分配器用于分配和维护一个进程的虚拟内存区域，称为堆。堆在系统内存中向上生长。对于每个进程，系统维护着一个堆顶指针brk。  </p>
 <p>分配器将堆视为不同大小的块组成的集合。每个块就是一段连续的虚拟内存片（chunk），要么是已分配的（allocated），要么是空闲的（free）。已分配的块显式地保留给应用程序使用，空闲块留待分配。  </p>
 <ul>
@@ -673,13 +1195,80 @@
 <li>ssize_t wirte(int fd,const void *buf,size_t n)，write函数从内存位置buf复制至多n个字节到描述符为fd的当前文件位置。 </li>
 </ol>
 <h2 id="8-3-printf的实现分析"><a href="#8-3-printf的实现分析" class="headerlink" title="8.3 printf的实现分析"></a>8.3 printf的实现分析</h2><p>printf函数实现如下：</p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/G9f5NbznlA3auqV.png" width=50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 8-1 printf的实现</div>
+</center>
+
 <p>用vsprintf函数生成显示信息，实现如下：</p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/cVQgepaiwdrfKIJ.png" width=50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 8-2 vsprintf实现</div>
+</center>
+
 <p>在printf中调用write(buf, i)，输出长度为i的buf。追踪write，得到其汇编实现如下：</p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/A9BT2QOiKhnaLdr.png" width=50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 8-3 write汇编</div>
+</center>
+
 <p>write函数中，%ecx中存储字符个数，%ebx中存储字符串首地址，int INT_VECTOR_SYS_CALL的意思是通过系统调用 sys_call。这个函数的功能就是不断地打印出字符，直到遇到\0。  </p>
 <p>追踪sys_call，得到其汇编实现如下：</p>
-<p>接着，字符显示驱动子程序：从ASCII到字模库到显示vram（存储每一个点的RGB颜色信息）。显示芯片按照刷新频率逐行读取vram，并通过信号线向液晶显示器传输每一个点（RGB分量）。</p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/m5xRWYlMOHJe2Lh.png" width=50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 8-4 sys_call汇编</div>
+</center>
+ 
+接着，字符显示驱动子程序：从ASCII到字模库到显示vram（存储每一个点的RGB颜色信息）。显示芯片按照刷新频率逐行读取vram，并通过信号线向液晶显示器传输每一个点（RGB分量）。
+
 <h2 id="8-4-getchar的实现分析"><a href="#8-4-getchar的实现分析" class="headerlink" title="8.4 getchar的实现分析"></a>8.4 getchar的实现分析</h2><p>getchar函数的声明在stdio.h头文件中。一种实现如下：</p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/y9g7Cb1mScavZdn.png" width=50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 8-5 getchar的实现</div>
+</center>
+
 <p>这个getchar每次从标准输入中读取一个字符。具体来说，若当前I/O未被锁定，它就调用系统_IO_getc_unlocked内置宏，读取一个字符。<br>把_IO_getc_unlocked写成等价的函数形式如下：</p>
+<center>
+    <img style="border-radius: 0.3125em;
+    box-shadow: 0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.08);" 
+    src="https://i.loli.net/2021/08/15/skmX7S1ntPvhJpZ.png" width=50%>
+    <br>
+    <div style="color:orange; border-bottom: 1px solid #d9d9d9;
+    display: inline-block;
+    color: #999;
+    padding: 2px;">图 8-6 IO_getc_unlocked写成等价的函数形式</div>
+</center>
+
 <p>简单地说，我们用一个指针_IO_read_ptr指向缓冲区，用另一个指针_IO_read_end指向缓冲区的末尾。调用_IO_getc_unlocked时，先检查指针是否越界。如果没有，就返回_IO_read_ptr所指向的字符并自增_IO_read_ptr。若已越界，就调用_uflow（内部使用了系统read），用这个函数重新填充缓冲区并返回重新读入的字符。  </p>
 <p>对于异步异常和键盘中断的处理：键盘中断处理子程序；接受按键扫描码转成ASCII码，保存到系统的键盘缓冲区。也就是说，getchar等调用read系统函数，通过系统调用读取按键ASCII码，直到接受到回车键才返回。</p>
 <h2 id="8-5本章小结"><a href="#8-5本章小结" class="headerlink" title="8.5本章小结"></a>8.5本章小结</h2><p>本章主要介绍了Linux的IO设备管理方法、Unix IO接口及其函数，分析了printf函数和getchar函数。</p>
